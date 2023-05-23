@@ -26,7 +26,9 @@
       <p>
         <nuxt-link to="/">На главную</nuxt-link>
       </p>
-      <button class="btn btn-primary" type="submit">Войти</button>
+      <button class="btn btn-primary" type="submit" @click.prevent="onSubmit()">
+        Войти
+      </button>
     </form>
   </section>
 </template>
@@ -34,6 +36,11 @@
 <script>
 export default {
   layout: 'empty',
+  methods: {
+    onSubmit() {
+      this.$router.push('/db/members')
+    },
+  },
 }
 </script>
 

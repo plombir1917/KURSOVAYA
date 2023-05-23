@@ -1,9 +1,11 @@
-<template><Carousel /></template>
+<template>
+  <section>
+    <Carousel />
+  </section>
+</template>
 
-<script lang="ts">
-import Vue from 'vue'
+<script lang="js">
+export default {
 
-export default Vue.extend({
-  name: 'IndexPage',
-})
+}
 </script>
