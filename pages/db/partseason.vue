@@ -1,12 +1,12 @@
 <template>
   <section>
-    <b-table striped hover :items="editors" :fields="fields">
+    <b-table striped hover :items="partseason" :fields="fields">
       <template #cell(_)="data">
         <b-button
           size="sm"
           class="mr-2"
           variant="danger"
-          @click.prevent="deleteEditor(data.index)"
+          @click.prevent="deletePartseason(data.index)"
         >
           Удалить
         </b-button>
@@ -23,27 +23,21 @@
       </b-button-group>
     </div>
     <b-table striped hover :items="empty" :fields="fields" v-if="add">
-      <template #cell(editor_fullname)>
+      <template #cell(season_year)>
         <b-form-input
-          v-model="newEditor.editor_fullname"
+          v-model="newPartseason.season_year"
           placeholder="Поле ввода"
         ></b-form-input>
       </template>
-      <template #cell(editor_phonenumber)>
+      <template #cell(team_name)>
         <b-form-input
-          v-model="newEditor.editor_phonenumber"
+          v-model="newPartseason.team_name"
           placeholder="Поле ввода"
         ></b-form-input>
       </template>
-      <template #cell(editor_passport)>
+      <template #cell(position_in_the_season)>
         <b-form-input
-          v-model="newEditor.editor_passport"
-          placeholder="Поле ввода"
-        ></b-form-input>
-      </template>
-      <template #cell(editor_regalia)>
-        <b-form-input
-          v-model="newEditor.editor_regalia"
+          v-model="newPartseason.position_in_the_season"
           placeholder="Поле ввода"
         ></b-form-input>
       </template>
@@ -52,7 +46,7 @@
           size="sm"
           class="mr-2"
           variant="success"
-          @click="createEditor()"
+          @click="createPartseason()"
         >
           Отправить
         </b-button>
@@ -75,34 +69,27 @@
 export default {
   layout: 'database',
   data: () => ({
-    fields: [
-      'editor_fullname',
-      'editor_phonenumber',
-      'editor_passport',
-      'editor_regalia',
-      '_',
-    ],
-    editors: [],
-    empty: [''],
-    newEditor: {
-      editor_fullname: '',
-      editor_phonenumber: '',
-      editor_passport: '',
-      editor_regalia: '',
-    },
+    fields: ['season_year', 'team_name', 'position_in_the_season', '_'],
     add: false,
     req: false,
+    empty: [''],
+    partseason: [],
+    newPartseason: {
+      season_year: '',
+      team_name: '',
+      position_in_the_season: '',
+    },
   }),
   async mounted() {
-    this.editors = await this.$axios.$get('/editor')
+    this.partseason = await this.$axios.$get('/partseason')
   },
   methods: {
-    deleteEditor(id) {
-      this.editors.splice(id, 1)
+    deletePartseason(id) {
+      this.partseason.splice(id, 1)
     },
-    createEditor() {
-      this.editors.push(this.newEditor)
-      this.newEditor = ''
+    createPartseason() {
+      this.partseason.push(this.newPartseason)
+      this.newPartseason = ''
     },
   },
 }

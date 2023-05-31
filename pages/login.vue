@@ -10,6 +10,7 @@
             class="form-control"
             id="colFormLabel"
             placeholder="Логин"
+            v-model="user.login"
           />
         </div>
       </div>
@@ -20,6 +21,7 @@
             class="form-control"
             id="colFormLabel"
             placeholder="Пароль"
+            v-model="user.password"
           />
         </div>
       </div>
@@ -35,10 +37,38 @@
 
 <script>
 export default {
+  data() {
+    return {
+      user: {
+        login: '',
+        password: '',
+      },
+      res: '',
+      auth: '',
+      token: '',
+    }
+  },
   layout: 'empty',
   methods: {
-    onSubmit() {
-      this.$router.push('/db/members')
+    async onSubmit() {
+      this.res = await this.$axios.$get(`/user/${this.user.login}`)
+      this.auth = this.res[0]
+      if (JSON.stringify(this.user) === JSON.stringify(this.auth)) {
+        this.$router.push('/db/members')
+        if (this.auth.login === 'editor') {
+          this.token = 'editor'
+          this.$store.dispatch('login', this.token)
+        } else if (this.auth.login === 'admin') {
+          this.token = 'admin'
+          this.$store.dispatch('login', this.token)
+        } else if (this.auth.login === 'director') {
+          this.token = 'director'
+          this.$store.dispatch('login', this.token)
+        }
+        console.log(this.token)
+      } else {
+        alert('Нет такого пользователя!')
+      }
     },
   },
 }

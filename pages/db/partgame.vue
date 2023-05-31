@@ -1,12 +1,12 @@
 <template>
   <section>
-    <b-table striped hover :items="editors" :fields="fields">
+    <b-table striped hover :items="partgame" :fields="fields">
       <template #cell(_)="data">
         <b-button
           size="sm"
           class="mr-2"
           variant="danger"
-          @click.prevent="deleteEditor(data.index)"
+          @click.prevent="deletePartgame(data.index)"
         >
           Удалить
         </b-button>
@@ -23,27 +23,27 @@
       </b-button-group>
     </div>
     <b-table striped hover :items="empty" :fields="fields" v-if="add">
-      <template #cell(editor_fullname)>
+      <template #cell(game_date)>
         <b-form-input
-          v-model="newEditor.editor_fullname"
+          v-model="newPartgame.game_date"
           placeholder="Поле ввода"
         ></b-form-input>
       </template>
-      <template #cell(editor_phonenumber)>
+      <template #cell(team_name)>
         <b-form-input
-          v-model="newEditor.editor_phonenumber"
+          v-model="newPartgame.team_name"
           placeholder="Поле ввода"
         ></b-form-input>
       </template>
-      <template #cell(editor_passport)>
+      <template #cell(position_in_the_game)>
         <b-form-input
-          v-model="newEditor.editor_passport"
+          v-model="newPartgame.position_in_the_game"
           placeholder="Поле ввода"
         ></b-form-input>
       </template>
-      <template #cell(editor_regalia)>
+      <template #cell(stage_game)>
         <b-form-input
-          v-model="newEditor.editor_regalia"
+          v-model="newPartgame.stage_game"
           placeholder="Поле ввода"
         ></b-form-input>
       </template>
@@ -52,7 +52,7 @@
           size="sm"
           class="mr-2"
           variant="success"
-          @click="createEditor()"
+          @click="createPartgame()"
         >
           Отправить
         </b-button>
@@ -76,33 +76,33 @@ export default {
   layout: 'database',
   data: () => ({
     fields: [
-      'editor_fullname',
-      'editor_phonenumber',
-      'editor_passport',
-      'editor_regalia',
+      'game_date',
+      'team_name',
+      'position_in_the_game',
+      'stage_game',
       '_',
     ],
-    editors: [],
-    empty: [''],
-    newEditor: {
-      editor_fullname: '',
-      editor_phonenumber: '',
-      editor_passport: '',
-      editor_regalia: '',
-    },
     add: false,
     req: false,
+    empty: [''],
+    partgame: [],
+    newPartgame: {
+      game_date: '',
+      team_name: '',
+      position_in_the_game: '',
+      stage_game: '',
+    },
   }),
   async mounted() {
-    this.editors = await this.$axios.$get('/editor')
+    this.partgame = await this.$axios.$get('/partgame')
   },
   methods: {
-    deleteEditor(id) {
-      this.editors.splice(id, 1)
+    deletePartgame(id) {
+      this.partgame.splice(id, 1)
     },
-    createEditor() {
-      this.editors.push(this.newEditor)
-      this.newEditor = ''
+    createPartgame() {
+      this.partgame.push(this.newPartgame)
+      this.newPartgame = ''
     },
   },
 }
