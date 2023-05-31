@@ -10,9 +10,12 @@ import { GameModule } from './game/game.module';
 import { SeasonModule } from './season/season.module';
 import { PopularityModule } from './popularity/popularity.module';
 import { EditorModule } from './editor/editor.module';
+import { UserModule } from './user/user.module';
+import { PartgameModule } from './partgame/partgame.module';
+import { PartseasonModule } from './partseason/partseason.module';
 
 @Module({
-  imports: [DbModule, AdminModule, MemberModule, TeamModule, ContestModule, GameModule, SeasonModule, PopularityModule, EditorModule],
+  imports: [DbModule, AdminModule, MemberModule, TeamModule, ContestModule, GameModule, SeasonModule, PopularityModule, EditorModule, UserModule, PartgameModule, PartseasonModule],
   controllers: [AppController],
   providers: [AppService],
 })
