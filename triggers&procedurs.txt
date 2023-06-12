@@ -1,0 +1,64 @@
+CREATE OR REPLACE PROCEDURE new_game(game_date1 integer,
+	team_name1 char(20),
+	season_year1 integer,
+	game_stage1 char(20),
+	game_jury1 char(20),
+	contest_name1 char(20),
+	position_in_the_game1 integer,
+	popularity_discussion1 integer)
+LANGUAGE plpgsql AS
+$proc$
+BEGIN
+	INSERT INTO game(game_jury,game_date, game_stage, sea-son_year)
+		VALUES (game_jury1,game_date1,game_stage1,season_year1);
+	INSERT INTO have(game_date,contest_name)
+		VALUES (game_date1,contest_name1);
+	INSERT INTO "Participation in the gameФ (game_date,team_name,position_in_the_game)
+	VALUES (game_date1, team_name1, position_in_the_game1);
+		RETURN;
+END;
+$proc$
+
+CREATE OR REPLACE FUNCTION trigger1()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $BODY$
+BEGIN
+ INSERT INTO admin (admin_fullname, admin_phonenumber)
+ VALUES (
+	(SELECT admin_fullname
+		FROM team 
+            WHERE admin_fullname = NEW.admin_fullname ),
+  (SELECT floor(random()*(40-25+1))+25))
+ ON CONFLICT DO NOTHING;
+ RETURN NULL;
+END;
+$BODY$;
+DROP TRIGGER IF EXISTS trigger1 on team;
+CREATE TRIGGER trigger1
+AFTER INSERT ON team
+FOR EACH ROW
+EXECUTE PROCEDURE trigger1();
+CREATE OR REPLACE FUNCTION trigger2()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $BODY$
+BEGIN
+ INSERT INTO team (team_name, editor_fullname, admin_fullname, team_achievments, team_rate, team_years_of_activity, team_motherland)
+ VALUES (
+  (SELECT team_name FROM member WHERE team_name=NEW.team_name),
+  (SELECT editor_fullname FROM editor WHERE editor_fullname = 'ƒмитрий ѕомотилов'),
+  (SELECT admin_fullname FROM admin WHERE admin_fullname = 'ƒмитрий √лотов'),
+  (SELECT team_achievments FROM team WHERE team_name=NEW.team_name),
+	(SELECT team_rate FROM team WHERE team_name=Тƒень независимости “униса'),
+	 (SELECT team_years_of_activity FROM team WHERE team_name=ТЌаполеоныТ),
+	 (SELECT team_motherland FROM team WHERE team_name=NEW.team_name))
+ ON CONFLICT DO NOTHING;
+ RETURN NULL;
+END;
+$BODY$;
+DROP TRIGGER IF EXISTS trigger2 on member;
+CREATE TRIGGER trigger2
+AFTER INSERT ON member 
+FOR EACH ROW
+EXECUTE PROCEDURE trigger2();
